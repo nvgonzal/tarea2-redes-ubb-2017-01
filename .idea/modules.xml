@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Tarea 2 Redes 2017-1.iml" filepath="$PROJECT_DIR$/Tarea 2 Redes 2017-1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/cliente/cliente.iml" filepath="$PROJECT_DIR$/src/cliente/cliente.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/servidor/servidor.iml" filepath="$PROJECT_DIR$/src/servidor/servidor.iml" />
+    </modules>
+  </component>
+</project>
