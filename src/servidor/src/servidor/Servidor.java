@@ -2,6 +2,8 @@ package servidor;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Vector;
 
 /**
  * Created by Nicolas on 00009, 09-07-2017.
@@ -10,6 +12,7 @@ public class Servidor {
 
     public int puerto;
     private ServerSocket socketEscucha;
+    private Vector<ServidorTransmision> hilosDeConexion;
 
     /**
      * Crea un servidor de escucha con el puerto por defecto 3000
@@ -17,6 +20,7 @@ public class Servidor {
     public Servidor(){
         this.puerto = 3000;
         crearServidorEscucha(this.puerto);
+        this.hilosDeConexion = new Vector<>();
     }
 
     /**
@@ -26,6 +30,7 @@ public class Servidor {
     public Servidor(int puerto){
         this.puerto = puerto;
         crearServidorEscucha(this.puerto);
+        this.hilosDeConexion = new Vector<>();
     }
 
     /**
@@ -46,5 +51,26 @@ public class Servidor {
         }
 
     }
+
+    public void escuchar(){
+        //TerminalLogger.TLog("Servidor escuchando en el puerto: "+puerto,TerminalLogger.CONTROL);
+        //TerminalLogger.TLog("Que tengas un buen dia.",TerminalLogger.CONTROL);
+        while (true){
+            try {
+                Socket conCliente = this.socketEscucha.accept();
+                //TerminalLogger.TLog("Conexion establecida con: "+
+                //        conCliente.getInetAddress().toString(),TerminalLogger.CONN);
+                ServidorTransmision a = new ServidorTransmision(conCliente);
+                hilosDeConexion.add(a);
+                a.start();
+            }
+            catch (IOException e){
+                //TerminalLogger.TLog("Error al crear la conexion con el cliente: "+e.toString()
+                  //      ,TerminalLogger.ERR);
+            }
+        }
+    }
+
+
 
 }
