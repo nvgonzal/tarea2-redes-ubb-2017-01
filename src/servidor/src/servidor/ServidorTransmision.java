@@ -16,6 +16,7 @@ public class ServidorTransmision extends Thread {
     private BufferedReader entradaDatos;
     private PrintWriter salidaDatos;
     private int puertoUDPCliente;
+    private TrasmisionVideo broadcaster;
 
     public static final int FRAMESVIDEO1 = 100;
     public static final int FRAMESVIDEO2 = 100;
@@ -28,13 +29,15 @@ public class ServidorTransmision extends Thread {
 
     @Override
     public void run(){
-
+        atender();
     }
 
     public void atender(){
         try {
             obtenerNombreVideo();
             obtenerPuertoUDPCLiente();
+            crearBroadcaster();
+            this.broadcaster.transmitir();
         }
         catch (IOException e){
             System.err.println(e.toString());
@@ -45,11 +48,11 @@ public class ServidorTransmision extends Thread {
         String solicitud = entradaDatos.readLine();
         if(solicitud.contains("GET")){
             if (solicitud.contains("video_1")){
-                this.videoSolicitado = "video_1";
+                this.videoSolicitado = "video1";
                 salidaDatos.println("OK "+FRAMESVIDEO1);
             }
             else if (solicitud.contains("video_2")){
-                this.videoSolicitado = "video_2";
+                this.videoSolicitado = "video2";
                 salidaDatos.println("OK "+FRAMESVIDEO2);
             }
             else {
@@ -72,6 +75,11 @@ public class ServidorTransmision extends Thread {
         else {
             salidaDatos.println("ERR");
         }
+    }
+
+    private void crearBroadcaster(){
+        this.broadcaster = new TrasmisionVideo(puertoUDPCliente,videoSolicitado,conexionClienteTCP.getInetAddress()
+                ,(videoSolicitado.equals("video_1")?FRAMESVIDEO1:FRAMESVIDEO2));
     }
 
     private void crearIOStream(){
