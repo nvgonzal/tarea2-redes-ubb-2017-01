@@ -1,7 +1,6 @@
-//package cliente;
-package cliente.src.cliente;
+package cliente;
+//package cliente.src.cliente;
 
-import cliente.src.cliente.ModuloSolicitudes;
 import java.io.IOException;
 import java.net.Socket;
 

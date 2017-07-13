@@ -1,4 +1,5 @@
-package cliente.src.cliente;
+package cliente;
+//package cliente.src.cliente;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -75,8 +76,6 @@ public class ModuloSolicitudes extends JFrame {
      * @throws IOException si hay un error al enviar o recibir los datos
      */
     private boolean autentificar() throws IOException{
-      
-        
         //El servidor solicita el video al cliete
         
         String mensajeServidor = obtenerMensajeServidor();
