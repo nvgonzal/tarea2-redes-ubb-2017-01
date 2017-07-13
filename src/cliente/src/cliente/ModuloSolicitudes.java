@@ -1,4 +1,5 @@
-package cliente.src.cliente;
+//package cliente.src.cliente;
+package cliente;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -29,6 +30,7 @@ public class ModuloSolicitudes extends JFrame {
     DatagramSocket receiverSocket;
      static Lienzo ventana = new Lienzo();
      public int PORT = 9875;
+     String video;
 
     public ModuloSolicitudes(Socket conexion){
         
@@ -76,29 +78,35 @@ public class ModuloSolicitudes extends JFrame {
       
         
         //El servidor solicita el video al cliete
-        
-        
-        String video = sf.nextLine();
+
+             video = sf.nextLine();
+
+        try {
+                 
+                    int numero=Integer.parseInt(video); //Intenta trasformar el valor ingresado por el usuario
+                } catch (NumberFormatException e) {
+                    //Si la transformacion falla lanza una excepcion y muestra un mensaje por la
+                    //consola
+                    System.err.println("Error , ingrese solo numero: "+e.toString());
+                    System.out.println("ingrese nuevamente el numero del video");
+                     video = sf.nextLine();//El servidor solicita el video al cliete
+                }
                 
-        //Envia el numero del video
-        
-        salidaDatos.println(video);
-        //Recibe la respuesta del servidor si el usuario existe o no
-        String respuesta = entradaDatos.readLine();
-        
-        if (respuesta.contains("OK")){ // si esta correcto el servidor envia ok 250 y el cliente manda el puerto
+                
+        salidaDatos.println("GET video"+video);//Envia el numero del video
+        String respuesta = entradaDatos.readLine();//Recibe la respuesta del servidor si el usuario existe o no
+         if (respuesta.contains("OK")){ // si esta correcto el servidor envia OK y el cliente manda el puerto
             
             salidaDatos.println("PORT" +PORT);// envia datos al servidor
-            
-             
             return true;
-        }
-    
+            }
+
         return false;
+       
     }
 
     /**
-     * Solicita el video al servidor y el video, a demas de crear concexion udp.
+     * Solicita el video al servidor, a demas de crear concexion udp.
      * @throws IOException si falla al recibir los videos.
      */
     private void obtenerVideo() throws IOException{
@@ -107,10 +115,8 @@ public class ModuloSolicitudes extends JFrame {
         
              while (true){
                     
-                    try{
-                         
+                    try{                         
                         i++;
-
                         System.out.println("Escuchando envio");       
                         byte[] receiverData = new byte[maxBuff]; 
                         DatagramPacket packet = new DatagramPacket(receiverData, receiverData.length);

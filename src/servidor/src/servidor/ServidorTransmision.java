@@ -33,6 +33,7 @@ public class ServidorTransmision extends Thread {
     }
 
     public void atender(){
+        
         try {
             obtenerNombreVideo();
             obtenerPuertoUDPCLiente();
