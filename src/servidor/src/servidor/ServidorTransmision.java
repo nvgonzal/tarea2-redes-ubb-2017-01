@@ -33,6 +33,7 @@ public class ServidorTransmision extends Thread {
     }
 
     public void atender(){
+        
         try {
             obtenerNombreVideo();
             obtenerPuertoUDPCLiente();
@@ -50,21 +51,17 @@ public class ServidorTransmision extends Thread {
             if (solicitud.contains("video1")){
                 this.videoSolicitado = "video1";
                 salidaDatos.println("OK "+FRAMESVIDEO1);
-                TerminalLogger.TLog("Seleccionado video 1",TerminalLogger.APP);
             }
             else if (solicitud.contains("video2")){
                 this.videoSolicitado = "video2";
                 salidaDatos.println("OK "+FRAMESVIDEO2);
-                TerminalLogger.TLog("Seleccionado video 2",TerminalLogger.APP);
             }
             else {
                 salidaDatos.println("ERR");
-                TerminalLogger.TLog("Video seleccionado no existe",TerminalLogger.ERR);
             }
         }
         else {
             salidaDatos.println("ERR");
-            TerminalLogger.TLog("Solicitud invalida",TerminalLogger.ERR);
         }
 
     }
@@ -75,11 +72,9 @@ public class ServidorTransmision extends Thread {
         {
             this.puertoUDPCliente = Integer.parseInt(mensaje.substring(5));
             salidaDatos.println("OK");
-            TerminalLogger.TLog("Puerto UDP recibido de "+conexionClienteTCP.getInetAddress(),TerminalLogger.APP);
         }
         else {
             salidaDatos.println("ERR");
-            TerminalLogger.TLog("Error al recibir el puerto.",TerminalLogger.ERR);
         }
     }
 
