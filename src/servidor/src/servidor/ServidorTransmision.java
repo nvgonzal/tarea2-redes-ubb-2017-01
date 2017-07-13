@@ -47,12 +47,12 @@ public class ServidorTransmision extends Thread {
     private void obtenerNombreVideo()throws IOException{
         String solicitud = entradaDatos.readLine();
         if(solicitud.contains("GET")){
-            if (solicitud.contains("video_1")){
+            if (solicitud.contains("video1")){
                 this.videoSolicitado = "video1";
                 salidaDatos.println("OK "+FRAMESVIDEO1);
                 TerminalLogger.TLog("Seleccionado video 1",TerminalLogger.APP);
             }
-            else if (solicitud.contains("video_2")){
+            else if (solicitud.contains("video2")){
                 this.videoSolicitado = "video2";
                 salidaDatos.println("OK "+FRAMESVIDEO2);
                 TerminalLogger.TLog("Seleccionado video 2",TerminalLogger.APP);
