@@ -18,8 +18,8 @@ public class ServidorTransmision extends Thread {
     private int puertoUDPCliente;
     private TrasmisionVideo broadcaster;
 
-    public static final int FRAMESVIDEO1 = 100;
-    public static final int FRAMESVIDEO2 = 100;
+    public static final int FRAMESVIDEO1 = 1805;
+    public static final int FRAMESVIDEO2 = 2714;
 
 
     public ServidorTransmision(Socket conexionClienteTCP){
