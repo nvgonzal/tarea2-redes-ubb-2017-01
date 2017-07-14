@@ -5,10 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 
 /**
  * Created by Nicolas on 0012, 12, 07, 2017.
@@ -36,7 +33,11 @@ public class TrasmisionVideo {
     public void transmitir(){
         for (int i=1;i<=cantidadDeFrames;i++){
             try {
-                BufferedImage imagen = ImageIO.read(new File("videos/"+video+"/"+video+"_"+i+".jpg"));
+                TerminalLogger.TLog("Enviado imagen "+i,TerminalLogger.APP);
+                String ruta = "file:///"+System.getProperty("user.dir")+"/videos/"+video+"/"+video+"_"+i+".jpg";
+                URL url = new URL(ruta);
+                TerminalLogger.TLog("Ruta imagen: "+ruta,TerminalLogger.APP);
+                BufferedImage imagen = ImageIO.read(url);
                 ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
                 ImageIO.write(imagen,"jpg",arrayOutputStream);
                 arrayOutputStream.flush();
