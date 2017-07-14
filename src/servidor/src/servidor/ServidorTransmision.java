@@ -80,7 +80,7 @@ public class ServidorTransmision extends Thread {
 
     private void crearBroadcaster(){
         this.broadcaster = new TrasmisionVideo(puertoUDPCliente,videoSolicitado,conexionClienteTCP.getInetAddress()
-                ,(videoSolicitado.equals("video_1")?FRAMESVIDEO1:FRAMESVIDEO2));
+                ,(videoSolicitado.equals("video1")?FRAMESVIDEO1:FRAMESVIDEO2));
     }
 
     private void crearIOStream(){
