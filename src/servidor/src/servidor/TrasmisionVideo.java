@@ -30,11 +30,10 @@ public class TrasmisionVideo {
         }
     }
 
-    public void transmitir(){
+    public void transmitir() throws IOException{
         TerminalLogger.TLog("Enviando "+video+" a : "+puertoUDPCliente+"@"+ipCliente.getHostAddress()
                 ,TerminalLogger.APP);
         for (int i=0;i<cantidadDeFrames;i++){
-            try {
                 String ruta = "file:///"+System.getProperty("user.dir")+"/videos/"+video+"/"+video+"_"+i+".jpeg";
                 URL url = new URL(ruta);
                 BufferedImage imagen = ImageIO.read(url);
@@ -45,10 +44,11 @@ public class TrasmisionVideo {
                 DatagramPacket packetImagen = new DatagramPacket(imagenEnBytes,imagenEnBytes.length,ipCliente,puertoUDPCliente);
                 socket.send(packetImagen);
                 arrayOutputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+        byte[] fin = "FIN".getBytes();
+        DatagramPacket packet = new DatagramPacket(fin,fin.length,ipCliente,puertoUDPCliente);
+        socket.send(packet);
+        socket.close();
         TerminalLogger.TLog("Video enviado a : "+puertoUDPCliente+"@"+ipCliente.getHostAddress()
                 ,TerminalLogger.APP);
     }
