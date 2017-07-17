@@ -1,12 +1,11 @@
 package cliente;
-//package cliente.src.cliente;
 
 
 import java.io.IOException;
 import java.net.Socket;
 
 /**
- * Created by ntardon on 11-05-17.
+ * Created by Javiera.
  */
 public class ConexionServidor {
 
