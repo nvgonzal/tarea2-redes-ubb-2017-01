@@ -1,4 +1,6 @@
-//package cliente.src.cliente;
+/**
+ * Created by Javiera.
+ */
 package cliente;
 
 import java.awt.Graphics;
@@ -29,22 +31,25 @@ public class ModuloSolicitudes extends JFrame {
     public int maxBuff=2000000;// tamaño del buffer, para recibir imagen
     DatagramSocket receiverSocket;
      static Lienzo ventana = new Lienzo();
-     public int PORT = 9875;
+     public int PORT;
+     public int numero;
+
      String video;
 
     public ModuloSolicitudes(Socket conexion){
         
         super("ModuloSolicitudes");
         setSize(800,600);
-        setVisible(true);
+
         setTitle("mostrar video");
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         add(ventana);
-                
+
         this.conexion = conexion;
         this.sf = new Scanner(System.in);
         crearIOStream();
+
         
        
     }
@@ -59,7 +64,7 @@ public class ModuloSolicitudes extends JFrame {
             do {
                 autentificado = autentificar();
             }while(!autentificado);
-                
+
                 obtenerVideo();//llama al metodo obtener video
         
         }
@@ -70,35 +75,48 @@ public class ModuloSolicitudes extends JFrame {
 
    
     /**
-     * Autentifica al usuario
-     * @return true si el usuario se autentifica, false si falla la autentificacion
+
+     * @return true si el numero ingresado por el usuario es correcto, false si falla
      * @throws IOException si hay un error al enviar o recibir los datos
      */
     private boolean autentificar() throws IOException{
-      
-        
+
+
         //El servidor solicita el video al cliete
 
+             System.out.println("ingrese numero del video(1 o 2)");
              video = sf.nextLine();
 
-        try {
-                 
-                    int numero=Integer.parseInt(video); //Intenta trasformar el valor ingresado por el usuario
-                } catch (NumberFormatException e) {
-                    //Si la transformacion falla lanza una excepcion y muestra un mensaje por la
-                    //consola
-                    System.err.println("Error , ingrese solo numero: "+e.toString());
-                    System.out.println("ingrese nuevamente el numero del video");
+             do {
+                 try {
+
+                     numero = Integer.parseInt(video); //Intenta trasformar el valor ingresado por el usuario
+
+                     if (numero > 2 || numero < 1) {
+                         System.err.println("Error  rango de numero , ingrese entre numero 1 y 2: ");
+                         video = sf.nextLine();//El servidor solicita el video al cliete
+                         numero = Integer.parseInt(video);
+                     }
+
+
+                 } catch (NumberFormatException e) {
+                     //Si la transformacion falla lanza una excepcion y muestra un mensaje por la
+                     //consola
+                     System.err.println("Error ingreso texto , ingrese solo numero: ");
                      video = sf.nextLine();//El servidor solicita el video al cliete
-                }
-                
-                
+
+                 }
+             }while(numero>2 || numero<1 );
+
         salidaDatos.println("GET video"+video);//Envia el numero del video
         String respuesta = entradaDatos.readLine();//Recibe la respuesta del servidor si el usuario existe o no
          if (respuesta.contains("OK")){ // si esta correcto el servidor envia OK y el cliente manda el puerto
-            
-            salidaDatos.println("PORT" +PORT);// envia datos al servidor
-            return true;
+
+             PORT = (int) Math.floor(Math.random() * 9999+1025);
+
+              salidaDatos.println("PORT " +PORT);// envia datos al servidor
+
+             return true;
             }
 
         return false;
@@ -112,33 +130,34 @@ public class ModuloSolicitudes extends JFrame {
     private void obtenerVideo() throws IOException{
 
              DatagramSocket receiverSocket = new DatagramSocket(PORT);
-        
+
              while (true){
-                    
-                    try{                         
-                        i++;
-                        System.out.println("Escuchando envio");       
-                        byte[] receiverData = new byte[maxBuff]; 
-                        DatagramPacket packet = new DatagramPacket(receiverData, receiverData.length);
-                        receiverSocket.receive(packet);  
-                        recivir_I = ImageIO.read(new ByteArrayInputStream(packet.getData()));
-                        System.out.println("Mostrando Frame Numero:" +i);  
-                        ventana.repaint();     
-                        
-                              
-                    } 
-                    
-                    catch (Exception e){
-                        
-                        e.printStackTrace();
-                        
-                    }
+
+                    try {
+                            i++;
+                            this.setVisible(true);
+                            System.out.println("Escuchando envio");
+                            byte[] receiverData = new byte[maxBuff];
+                            DatagramPacket packet = new DatagramPacket(receiverData, receiverData.length);
+                            receiverSocket.receive(packet);
+                            recivir_I = ImageIO.read(new ByteArrayInputStream(packet.getData()));// transforma lo recivido por el servidor(byte) en imagen
+                            System.out.println("Mostrando Frame Numero:" + i);
+                            ventana.repaint();
+
+                        }
+
+                    catch(Exception e){
+
+                            e.printStackTrace();
+
+                        }
+
                 }
     }
 
     public static class Lienzo extends JPanel{// lienzo extendida desde JPanel
 
-         public void paint(Graphics g){//imagen en el lienzo se actualicen
+         public void paint(Graphics g){// hace que la imagen en el lienzo se actualicen
             update(g);
        
          }
