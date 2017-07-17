@@ -1,9 +1,9 @@
 package cliente;
 
-//package cliente.src.cliente;
+
 
 /**
- * Created by Nicolas on 00002, 02-07-2017.
+ * Created by Javiera.
  */
 public class AppCliente{
     
