@@ -31,24 +31,25 @@ public class TrasmisionVideo {
     }
 
     public void transmitir(){
+        TerminalLogger.TLog("Enviando "+video+" a : "+puertoUDPCliente+"@"+ipCliente.getHostAddress()
+                ,TerminalLogger.APP);
         for (int i=0;i<cantidadDeFrames;i++){
             try {
-                TerminalLogger.TLog("Enviado imagen "+i,TerminalLogger.APP);
                 String ruta = "file:///"+System.getProperty("user.dir")+"/videos/"+video+"/"+video+"_"+i+".jpeg";
                 URL url = new URL(ruta);
-                TerminalLogger.TLog("Ruta imagen: "+url.toString(),TerminalLogger.APP);
                 BufferedImage imagen = ImageIO.read(url);
                 ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
                 ImageIO.write(imagen,"jpg",arrayOutputStream);
                 arrayOutputStream.flush();
                 byte[] imagenEnBytes = arrayOutputStream.toByteArray();
                 DatagramPacket packetImagen = new DatagramPacket(imagenEnBytes,imagenEnBytes.length,ipCliente,puertoUDPCliente);
-                TerminalLogger.TLog("Tamaño del paquete "+i+": "+imagenEnBytes.length,TerminalLogger.APP);
                 socket.send(packetImagen);
                 arrayOutputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        TerminalLogger.TLog("Video enviado a : "+puertoUDPCliente+"@"+ipCliente.getHostAddress()
+                ,TerminalLogger.APP);
     }
 }
