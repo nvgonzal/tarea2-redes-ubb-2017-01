@@ -26,13 +26,14 @@ public class ModuloSolicitudes extends JFrame {
     private BufferedReader entradaDatos;
     private PrintWriter salidaDatos;
     private Scanner sf;
-    public int i;
+    public int i=0;
     public static BufferedImage recivir_I; 
     public int maxBuff=2000000;// tamaño del buffer, para recibir imagen
     DatagramSocket receiverSocket;
      static Lienzo ventana = new Lienzo();
      public int PORT;
      public int numero;
+     public String fin;
 
      String video;
 
@@ -143,6 +144,13 @@ public class ModuloSolicitudes extends JFrame {
                             recivir_I = ImageIO.read(new ByteArrayInputStream(packet.getData()));// transforma lo recivido por el servidor(byte) en imagen
                             System.out.println("Mostrando Frame Numero:" + i);
                             ventana.repaint();
+                            String miString = new String(receiverData);
+                            if(miString.contains("FIN")){
+                                System.out.println("------------------------------");
+                                System.out.println("CANTIDAD TOTAL DE FRAMES:" + i);
+                            }
+
+
 
                         }
 
@@ -153,6 +161,7 @@ public class ModuloSolicitudes extends JFrame {
                         }
 
                 }
+
     }
 
     public static class Lienzo extends JPanel{// lienzo extendida desde JPanel
