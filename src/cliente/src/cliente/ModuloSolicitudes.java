@@ -144,10 +144,11 @@ public class ModuloSolicitudes extends JFrame {
                             recivir_I = ImageIO.read(new ByteArrayInputStream(packet.getData()));// transforma lo recivido por el servidor(byte) en imagen
                             System.out.println("Mostrando Frame Numero:" + i);
                             ventana.repaint();
-                            String miString = new String(receiverData);
+                            String miString = new String(packet.getData());
                             if(miString.contains("FIN")){
                                 System.out.println("------------------------------");
                                 System.out.println("CANTIDAD TOTAL DE FRAMES:" + i);
+
                             }
 
 
